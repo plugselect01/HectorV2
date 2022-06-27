@@ -1,15 +1,34 @@
 const fetch = require('node-fetch');
 const moment = require('moment');
 const chalk = require('chalk');
+const CFonts = require('cfonts');
 const rs = require('readline-sync');
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const GoStumble = (auth) => new Promise((resolve, reject) => {
+(async () => {
+	console.clear()
+ CFonts.say(`Vicenzo`, {
+            font: '3D',
+            align: 'left',
+            gradient: ['red', 'magenta']
+        })
+        await sleep(2500);
+        console.clear()
+        console.log(`${chalk.yellow(`Since Script 2022 - 5 - 21`)}`)
+console.log(`${chalk.white(`
+1 Push Trophy
+3 Push Crown
+Choose to use the available number`)} 
+`);
+const round = rs.question(`[+] Select Number  : `);
+    console.log('');
+    
+    const GoStumble = (auth) => new Promise((resolve, reject) => {
 
-  fetch('http://kitkabackend.eastus.cloudapp.azure.com:5010/round/finishv2/3', {
+  fetch('http://kitkabackend.eastus.cloudapp.azure.com:5010/round/finishv2/'+round, {
     method: 'GET',
     headers: {
       'authorization': auth
@@ -25,27 +44,15 @@ const GoStumble = (auth) => new Promise((resolve, reject) => {
 
 });
 
-(async () => {
-
-  console.log(`
-───────────▄▄▄▄▄▄▄▄▄───────────
-░██████╗░█████╗░███████╗███████╗
-██╔════╝██╔══██╗██╔════╝██╔════╝
-╚█████╗░███████║█████╗░░█████╗░░
-░╚═══██╗██╔══██║██╔══╝░░██╔══╝░░
-██████╔╝██║░░██║██║░░░░░███████╗
-╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚══════╝
-By : ${chalk.purple('Vicenzo')} - ${chalk.blue('HectorV2')}
-`);
-
-  const auth = rs.question('[+] Enter Authentication Code! : ');
+  const auth = rs.question('Enter Auth Token : ');
   console.log('');
-
+console.clear()
   while (true) {
-
 
     const result = await GoStumble(auth);
     if (!result) {
+
+      console.log(chalk.red(`\r[ ${moment().format('HH:mm:ss')} ] Auth Token Sudah Expired`));
 
     } else if (result.includes('User')) {
 
@@ -55,23 +62,12 @@ By : ${chalk.purple('Vicenzo')} - ${chalk.blue('HectorV2')}
       const trophy = data.User.SkillRating;
       const crown = data.User.Crowns;
 
-console.log(chalk.bgBlack(`\r[ ${moment().format('HH:mm:ss')} ] ${chalk.white(`User : ${username}`)} | ${chalk.yellow(`Trophy : ${trophy}`)} | ${chalk.red(`Crown : ${crown}`)}`));
-      await sleep(6000);
-
-console.log(chalk.bgBlack(`\r[ ${moment().format('HH:mm:ss')} ] ${chalk.white(`User : ${username}`)} | ${chalk.yellow(`Trophy : ${trophy}`)} | ${chalk.red(`Crown : ${crown}`)}`));
-      await sleep(6000);
-
-console.log(chalk.bgBlack(`\r[ ${moment().format('HH:mm:ss')} ] ${chalk.white(`User : ${username}`)} | ${chalk.yellow(`Trophy : ${trophy}`)} | ${chalk.red(`Crown : ${crown}`)}`));
-      await sleep(6000);
-
-console.log(chalk.bgBlack(`\r[ ${moment().format('HH:mm:ss')} ] ${chalk.white(`User : ${username}`)} | ${chalk.yellow(`Trophy : ${trophy}`)} | ${chalk.red(`Crown : ${crown}`)}`));
-      await sleep(6000);
-
-console.log(chalk.bgBlack(`\r[ ${moment().format('HH:mm:ss')} ] ${chalk.white(`User : ${username}`)} | ${chalk.yellow(`Trophy : ${trophy}`)} | ${chalk.red(`Crown : ${crown}`)}`));
-      await sleep(6000);
+console.log(chalk.white(`\rTime : [ ${moment().format('HH:mm:ss')} ] ${chalk.red(`!`)}${chalk.green(`User : ${username}`)} | ${chalk.red(`!`)}${chalk.yellow(`Trophy : ${trophy}`)} | ${chalk.red(`!`)}${chalk.(`Crown : ${crown}`)}
+${chalk.green(` Status : Succes✓`)}\n`));
+await sleep(2500);
 
     } else if (result == 'BANNED') {
-      console.log(chalk.bgRed(`Your Account has been Banned`));
+      console.log(chalk.bgRed(`Akun lu di banned kontol?`));
      break;
     }
   }
